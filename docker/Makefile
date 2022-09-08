@@ -1,7 +1,7 @@
 SYSTEM := $(shell uname -s)
 HOST := host.docker.internal
-DOCKER_REPO := blockscout
-APP_NAME := blockscout
+DOCKER_REPO := hermeznetwork
+APP_NAME := zkevm-explorer
 BS_CONTAINER_IMAGE := $(DOCKER_REPO)/$(APP_NAME)
 BS_CONTAINER_NAME := blockscout
 PG_CONTAINER_IMAGE := postgres:14
@@ -573,28 +573,22 @@ tag-stable-version: ## Generate container `{version}` tag
 	docker tag $(BS_CONTAINER_IMAGE) $(BS_CONTAINER_IMAGE):$(STABLE_TAG)
 
 # Polygon zkEVM
-DOCKER_IMAGE = polygon-zkevm-blockscout
-DOCKER_COMPOSE_PROJECT_NAME = zkevm-blockscout
-
 build-dev:
-	@docker build --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=dev -f ./Dockerfile -t $(DOCKER_IMAGE) ../
+	@docker build --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=dev -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
 
 build-prod:
-	@docker build $(ARGS) --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=prod -f ./Dockerfile -t $(DOCKER_IMAGE) ../
-
-build-prod-nc:
-	@make build-prod ARGS="--no-cache"
+	@docker build $(ARGS) --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=prod -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
 
 push:
 	@echo "==> Pushing image to docker hub"
-	@docker image tag ${DOCKER_IMAGE} hermeznetwork/hermez-node-blockscout:latest
-	@docker push hermeznetwork/hermez-node-blockscout:latest
+	@docker image tag ${BS_CONTAINER_IMAGE} ${BS_CONTAINER_IMAGE}:latest
+	@docker push ${BS_CONTAINER_IMAGE}:latest
 
 start-compose:
-	@docker-compose -p "$(DOCKER_COMPOSE_PROJECT_NAME)" -f docker-compose.yml up -d
+	@docker-compose -p "$(APP_NAME)" -f docker-compose.yml up -d
 
 stop-compose:
-	@docker-compose -p "$(DOCKER_COMPOSE_PROJECT_NAME)" -f docker-compose.yml down --remove-orphans
+	@docker-compose -p "$(APP_NAME)" -f docker-compose.yml down --remove-orphans
 
 .PHONY: build \
 				migrate \
