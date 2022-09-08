@@ -27,4 +27,3 @@ services:
             - LOGO_FOOTER=/images/blockscout_logo.svg
             - SUPPORTED_CHAINS=[]
         command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]
-        # command: bash -c "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
