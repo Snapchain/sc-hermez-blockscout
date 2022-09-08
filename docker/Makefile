@@ -467,12 +467,18 @@ ifdef RUST_VERIFICATION_SERVICE_URL
 	BLOCKSCOUT_CONTAINER_PARAMS += -e 'RUST_VERIFICATION_SERVICE_URL=$(RUST_VERIFICATION_SERVICE_URL)'
 endif
 
-# Polygon Hermez
-DOCKER_IMAGE = hermez-node-blockscout
-DOCKER_COMPOSE_PROJECT_NAME = hermez-blockscout
+# Polygon zkEVM
+DOCKER_IMAGE = polygon-zkevm-blockscout
+DOCKER_COMPOSE_PROJECT_NAME = zkevm-blockscout
 
-build:
-	@docker build --build-arg COIN="$(COIN)" -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
+build-dev:
+	@docker build --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=dev -f ./Dockerfile -t $(DOCKER_IMAGE) ../
+
+build-prod:
+	@docker build $(ARGS) --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=prod -f ./Dockerfile -t $(DOCKER_IMAGE) ../
+
+build-prod-nc:
+	@make build-prod ARGS="--no-cache"
 
 migrate_only:
 	@echo "==> Running migrations"

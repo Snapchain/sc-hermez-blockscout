@@ -6,23 +6,24 @@ networks:
 services:
     blockscout:
         container_name: blockscout
-        image: hermez-node-blockscout:latest
+        image: polygon-zkevm-blockscout:latest
         ports:
             - 4010:4010
         volumes:
-            - ../apps/block_scout_web/assets:/apps/block_scout_web/assets
-            - ../apps/block_scout_web/lib:/apps/block_scout_web/lib
-            - /apps/block_scout_web/assets/node_modules
+            - ../apps/block_scout_web/assets:/app/apps/block_scout_web/assets
+            - ../apps/block_scout_web/lib:/app/apps/block_scout_web/lib
+            - /app/apps/block_scout_web/assets/node_modules
         environment:
             - PORT=4010
             - NETWORK=POE
             - SUBNETWORK=Polygon zkEVM
             - COIN=ETH
             - ETHEREUM_JSONRPC_VARIANT=geth
-            - ETHEREUM_JSONRPC_HTTP_URL=http://hez-core:8123
+            - ETHEREUM_JSONRPC_HTTP_URL=http://zkevm-node:8123
             - DATABASE_URL=postgres://test_user:test_password@zkevm-node-db:5432/explorer
             - ECTO_USE_SSL=false
             - MIX_ENV=dev
             - LOGO=/images/blockscout_logo.svg
             - LOGO_FOOTER=/images/blockscout_logo.svg
         command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]
+        # command: bash -c "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
