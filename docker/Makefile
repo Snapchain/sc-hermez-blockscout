@@ -1,7 +1,7 @@
 SYSTEM := $(shell uname -s)
 HOST := host.docker.internal
-DOCKER_REPO := blockscout
-APP_NAME := blockscout
+DOCKER_REPO := hermeznetwork
+APP_NAME := zkevm-explorer
 BS_CONTAINER_IMAGE := $(DOCKER_REPO)/$(APP_NAME)
 BS_CONTAINER_NAME := blockscout
 PG_CONTAINER_IMAGE := postgres:14
@@ -467,13 +467,6 @@ ifdef RUST_VERIFICATION_SERVICE_URL
 	BLOCKSCOUT_CONTAINER_PARAMS += -e 'RUST_VERIFICATION_SERVICE_URL=$(RUST_VERIFICATION_SERVICE_URL)'
 endif
 
-# Polygon Hermez
-DOCKER_IMAGE = hermez-node-blockscout
-DOCKER_COMPOSE_PROJECT_NAME = hermez-blockscout
-
-build:
-	@docker build --build-arg COIN="$(COIN)" -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
-
 migrate_only:
 	@echo "==> Running migrations"
 	@docker run --rm \
@@ -563,17 +556,6 @@ publish-stable-version: tag-stable-version ## publish the `{version}` tagged con
 	@echo 'publish $(STABLE_TAG) to $(DOCKER_REPO)'
 	docker push $(BS_CONTAINER_IMAGE):$(STABLE_TAG)
 
-push:
-	@echo "==> Pushing image to docker hub"
-	@docker image tag ${DOCKER_IMAGE} hermeznetwork/hermez-node-blockscout:latest
-	@docker push hermeznetwork/hermez-node-blockscout:latest
-
-start-compose:
-	@docker-compose -p "$(DOCKER_COMPOSE_PROJECT_NAME)" -f docker-compose.yml up -d
-
-stop-compose:
-	@docker-compose -p "$(DOCKER_COMPOSE_PROJECT_NAME)" -f docker-compose.yml down --remove-orphans
-
 # Docker tagging
 tag: tag-latest tag-version ## Generate container tags for the `{version}` ans `latest` tags
 tag-stable: tag-latest tag-stable-version ## Generate container tags for the `{version}` ans `latest` tags
@@ -590,6 +572,24 @@ tag-stable-version: ## Generate container `{version}` tag
 	@echo 'create tag $(STABLE_TAG)'
 	docker tag $(BS_CONTAINER_IMAGE) $(BS_CONTAINER_IMAGE):$(STABLE_TAG)
 
+# Polygon zkEVM
+build-dev:
+	@docker build --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=dev -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
+
+build-prod:
+	@docker build $(ARGS) --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=prod -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
+
+push:
+	@echo "==> Pushing image to docker hub"
+	@docker image tag ${BS_CONTAINER_IMAGE} ${BS_CONTAINER_IMAGE}:latest
+	@docker push ${BS_CONTAINER_IMAGE}:latest
+
+start-compose:
+	@docker-compose -p "$(APP_NAME)" -f docker-compose.yml up -d
+
+stop-compose:
+	@docker-compose -p "$(APP_NAME)" -f docker-compose.yml down --remove-orphans
+
 .PHONY: build \
 				migrate \
 				start \
@@ -601,9 +601,12 @@ tag-stable-version: ## Generate container `{version}` tag
 				publish \
 				publish-latest \
 				publish-version \
-				push \
-				start-compose \
-				stop-compose \
 				tag \
 				tag-latest \
-				tag-version
+				tag-version \
+				build-dev \
+				build-prod \
+				build-prod-nc \
+				push \
+				start-compose \
+				stop-compose

@@ -1,5 +1,7 @@
 > :information_source: Find [here](guides/update-blockscout/update-blockscout.md) a guide on how and when to update this repository from the Blockscout main repository.
 
+> :information_source: Find [here](guides/run-blockscout/run-blockscout.md) a guide on how to run the Blockscout service in development.
+
 <h1 align="center">BlockScout</h1>
 <p align="center">Blockchain Explorer for inspecting and analyzing EVM Chains.</p>
 <div align="center">
