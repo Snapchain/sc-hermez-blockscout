@@ -27,4 +27,4 @@ Access the `docker` folder and run `make build-dev` for `dev` or `make build-pro
 
 ## Run the app
 
-Once the build is ready you can start the container with `start-compose`. After about a minute it should be available at `http://localhost:4010/`. Use `stop-compose` to stop the container.
+Once the build is ready you can start the container with `make start-compose`. After about a minute it should be available at `http://localhost:4010/`. Use `make stop-compose` to stop the container.
