@@ -574,10 +574,10 @@ tag-stable-version: ## Generate container `{version}` tag
 
 # Polygon zkEVM
 build-dev:
-	@docker build --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=dev -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
+	@docker build --build-arg BUILD_ENV=dev -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
 
 build-prod:
-	@docker build $(ARGS) --build-arg COIN="$(COIN)" --build-arg BUILD_ENV=prod -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
+	@docker build --build-arg BUILD_ENV=prod -f ./Dockerfile -t $(BS_CONTAINER_IMAGE) ../
 
 push:
 	@echo "==> Pushing image to docker hub"
