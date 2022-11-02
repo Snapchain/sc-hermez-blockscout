@@ -349,7 +349,7 @@ msgstr ""
 #: lib/block_scout_web/templates/layout/_footer.html.eex:22
 #, elixir-autogen, elixir-format
 msgid "Blockscout is a tool for inspecting and analyzing EVM based blockchains. Blockchain explorer for Ethereum Networks."
-msgstr "Polygon zkEVM is the first open-source zk-Rollup providing complete EVM opcode equivalence for a frictionless user experience and the security of Ethereum."
+msgstr "Polygon zkEVM is the first source code available zk-Rollup providing complete EVM opcode equivalence for a frictionless user experience and the security of Ethereum."
 
 #: lib/block_scout_web/templates/block/_tile.html.eex:64
 #: lib/block_scout_web/templates/block/overview.html.eex:216
