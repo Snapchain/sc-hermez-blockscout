@@ -40,5 +40,5 @@ services:
           - LOGO=/images/blockscout_logo.svg
           - LOGO_FOOTER=/images/blockscout_logo.svg
           - SUPPORTED_CHAINS=[]
-          - IS_NETWORK_OUTDATED=false
+          - NETWORK_OUTDATED=false
       command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]

@@ -12,7 +12,7 @@ config :block_scout_web,
 
 config :block_scout_web,
   admin_panel_enabled: System.get_env("ADMIN_PANEL_ENABLED", "") == "true",
-  is_network_outdated: System.get_env("IS_NETWORK_OUTDATED", "") == "true"
+  is_network_outdated: System.get_env("NETWORK_OUTDATED", "") == "true"
 
 config :block_scout_web, BlockScoutWeb.Counters.BlocksIndexedCounter, enabled: true
 
