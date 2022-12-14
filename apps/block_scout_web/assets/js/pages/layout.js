@@ -54,3 +54,15 @@ $('.main-search-autocomplete').on('focusout', function (_event) {
   $('#slash-icon').show()
   $('.search-control').removeClass('focused-field')
 })
+
+if (
+  sessionStorage.getItem("isNetworkOutdated")
+  && !sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
+) {
+  $(".outdated-network-modal-container").removeClass("d-none")
+}
+
+$("#outdated-network-modal-btn").on("click", () => {
+  sessionStorage.setItem("hasOutdatedNetworkPopUpBeenClosed", true)
+  $(".outdated-network-modal-container").addClass("d-none")
+})
