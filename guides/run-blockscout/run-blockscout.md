@@ -2,15 +2,26 @@
 
 This document describes how to run the blockscout service in development in both `dev` and `prod` modes.
 
-## Prepare the network
+## Connect to the zkEVM network
 
-Blockscout needs to access the database and the JSON-RPC provided by the service `zkevm-node-db` in the [zkevm-bridge-service](https://github.com/0xPolygonHermez/zkevm-bridge-service). To enable this access through docker you will need to add this `network` setting to the [docker-compose.yml](https://github.com/0xPolygonHermez/zkevm-bridge-service/blob/main/docker-compose.yml) of the `zkevm-bridge-service` and start the services:
+You can connect blockscout to the zkEVM network in two different ways:
 
-```
-networks:
-  default:
-    name: zkevm
-```
+### Local zkEVM network
+
+First, you need to clone the [zkevm-bridge-service](https://github.com/0xPolygonHermez/zkevm-bridge-service) repo.
+Next, you need to add this `network` setting to the [docker-compose.yml](https://github.com/0xPolygonHermez/zkevm-bridge-service/blob/main/docker-compose.yml)
+file and run the following commands on the root of the project:
+
+1. `make build`
+2. `make run`
+
+After it's deployed, you just need to point blockscout to the local zkEVM node. To do it, you just need to set the set the `ETHEREUM_JSONRPC_HTTP_URL`
+env var to `http://zkevm-node:8123`.
+
+### Deployed zkEVM network
+
+If you just want to connect to a deployed instance of the zkEVM network, you just need to set the `ETHEREUM_JSONRPC_HTTP_URL` to the URL of the RPC
+of the network.
 
 ## Select the desired environment
 
@@ -27,4 +38,4 @@ Access the `docker` folder and run `make build-dev` for `dev` or `make build-pro
 
 ## Run the app
 
-Once the build is ready you can start the container with `make start-compose`. After about a minute it should be available at `http://localhost:4010/`. Use `make stop-compose` to stop the container.
+Once the build is ready you can start the container with `make start-compose`. After about a minute it should be available at `http://localhost:4010`. Use `make stop-compose` to stop the container.
