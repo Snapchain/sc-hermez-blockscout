@@ -210,8 +210,10 @@
         <%= nil %>
     <% end %>
     <div class="layout-container">
+      <% network_outdated_title = Application.get_env(:block_scout_web, :network_outdated_title) %>
       <% network_outdated_message = Application.get_env(:block_scout_web, :network_outdated_message) %>
-      <%= if network_outdated_message != "" do %>
+      <% network_outdated_url = Application.get_env(:block_scout_web, :network_outdated_url) %>
+      <%= if network_outdated_title != "" and network_outdated_message != ""  do %>
         <div class="outdated-network-modal-container d-none">
           <script>
             const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
@@ -233,11 +235,16 @@
           <div class="card outdated-network-modal">
             <div class="card-body">
               <h1 class="card-title w-100 text-center">
-                A new zkEVM Testnet is on its way!
+                <%= network_outdated_title %>
               </h1>
               <p class="text-center">
                 <%= network_outdated_message %>
               </p>
+              <%= if network_outdated_url != "" do %>
+                <p>
+                  <a class="mx-auto d-block text-center mb-4 " href=<%= network_outdated_url %>><%= network_outdated_url %></a>
+                </p>
+              <% end %>
               <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn" onclick="closeNetworkOutdatedModal()">
                 Confirm
               </button>
