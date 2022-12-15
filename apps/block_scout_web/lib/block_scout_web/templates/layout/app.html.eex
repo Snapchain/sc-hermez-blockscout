@@ -210,24 +210,31 @@
         <%= nil %>
     <% end %>
     <div class="layout-container">
-      <div class="outdated-network-modal-container d-none">
-        <div class="outdated-network-modal-bg"></div>
-        <div class="card outdated-network-modal">
-          <div class="card-body">
-            <h1 class="card-title w-100 text-center">
-              A new zkEVM Testnet is on its way!
-            </h1>
-            <p class="text-center">
-              In the coming days, a new zkEVM Testnet (Pomegranate) will be released to the public,
-              and this version (Litchi) will be outdated. We will update this message with the link
-              to the newest version when it&apos;s deployed.
-            </p>
-            <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn">
-              Confirm
-            </button>
+      <% network_outdated_message = Application.get_env(:block_scout_web, :network_outdated_message) %>
+      <%= if network_outdated_message != "" do %>
+        <script>
+          function closeNetworkOutdatedModal() {
+            const el = document.getElementsByClassName('outdated-network-modal-container')[0];
+            if (el) { el.classList.add("d-none"); }
+          }
+        </script>
+        <div class="outdated-network-modal-container">
+          <div class="outdated-network-modal-bg"></div>
+          <div class="card outdated-network-modal">
+            <div class="card-body">
+              <h1 class="card-title w-100 text-center">
+                A new zkEVM Testnet is on its way!
+              </h1>
+              <p class="text-center">
+                <%= network_outdated_message %>
+              </p>
+              <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn" onclick="closeNetworkOutdatedModal()">
+                Confirm
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
       <%#= if not Explorer.Chain.finished_indexing?() do %>
         <!-- <div class="alert alert-warning text-center mb-0 p-3" data-selector="indexed-status">
           <%= render BlockScoutWeb.CommonComponentsView, "_loading_spinner.html" %>
@@ -313,8 +320,5 @@
     <%= if @view_module in [Elixir.BlockScoutWeb.AddressContractVerificationViaMultiPartFilesView, Elixir.BlockScoutWeb.AddressContractVerificationViaJsonView, Elixir.BlockScoutWeb.AddressContractVerificationViaStandardJsonInputView] do %>
       <script defer data-cfasync="false" src="<%= static_path(@conn, "/js/dropzone.js") %>"></script>
     <% end %>
-    <script>
-      sessionStorage.setItem("isNetworkOutdated", "<%= Application.get_env(:block_scout_web, :is_network_outdated) %>" === "true")
-    </script>
   </body>
 </html>

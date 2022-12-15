@@ -40,5 +40,5 @@ services:
           - LOGO=/images/blockscout_logo.svg
           - LOGO_FOOTER=/images/blockscout_logo.svg
           - SUPPORTED_CHAINS=[]
-          - NETWORK_OUTDATED=false
+          - NETWORK_OUTDATED_MESSAGE=In the coming days, a new zkEVM Testnet (Pomegranate) will be released to the public, and this version (Litchi) will be outdated. We will update this message with the link to the newest version when it's deployed.
       command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]
