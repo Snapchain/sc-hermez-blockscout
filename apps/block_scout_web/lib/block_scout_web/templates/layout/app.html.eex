@@ -212,29 +212,23 @@
     <div class="layout-container">
       <% network_outdated_message = Application.get_env(:block_scout_web, :network_outdated_message) %>
       <%= if network_outdated_message != "" do %>
-        <script>
-          const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
-          if (hasOutdatedNetworkPopUpBeenClosed !== "true") {
-            const layoutContainerElement = document.getElementsByClassName('layout-container')[0]
-            const observer = new MutationObserver(function(mutations) {
-              const outdatedNetworkModalContainer = document.getElementsByClassName('outdated-network-modal-container')[0]
-              if (layoutContainerElement.contains(outdatedNetworkModalContainer)) {
-                  outdatedNetworkModalContainer.classList.remove("d-none");
-                  observer.disconnect();
-                }
-            });
-            observer.observe(layoutContainerElement, {attributes: false, childList: true, characterData: false, subtree:true});
-          }
-
-          function closeNetworkOutdatedModal() {
-            const outdatedNetworkModalContainer = document.getElementsByClassName('outdated-network-modal-container')[0]
-            if (outdatedNetworkModalContainer) {
-              outdatedNetworkModalContainer.classList.add("d-none");
-              sessionStorage.setItem("hasOutdatedNetworkPopUpBeenClosed", "true")
-            }
-          }
-        </script>
         <div class="outdated-network-modal-container d-none">
+          <script>
+            const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
+            if (hasOutdatedNetworkPopUpBeenClosed !== "true") {
+              const outdatedNetworkModalContainer = document.querySelector('.outdated-network-modal-container')
+              if (outdatedNetworkModalContainer) {
+                  outdatedNetworkModalContainer.classList.remove("d-none");
+              }
+            }
+            function closeNetworkOutdatedModal() {
+              const outdatedNetworkModalContainer = document.querySelector('.outdated-network-modal-container')
+              if (outdatedNetworkModalContainer) {
+                outdatedNetworkModalContainer.classList.add("d-none");
+                sessionStorage.setItem("hasOutdatedNetworkPopUpBeenClosed", "true")
+              }
+            }
+          </script>
           <div class="outdated-network-modal-bg"></div>
           <div class="card outdated-network-modal">
             <div class="card-body">
