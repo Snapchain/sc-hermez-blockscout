@@ -314,7 +314,7 @@
       <script defer data-cfasync="false" src="<%= static_path(@conn, "/js/dropzone.js") %>"></script>
     <% end %>
     <script>
-      sessionStorage.setItem("isNetworkOutdated", "<%= Application.get_env(:block_scout_web, :is_network_outdated) %>")
+      sessionStorage.setItem("isNetworkOutdated", "<%= Application.get_env(:block_scout_web, :is_network_outdated) %>" === "true")
     </script>
   </body>
 </html>

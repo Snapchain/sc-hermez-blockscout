@@ -56,8 +56,11 @@ $('.main-search-autocomplete').on('focusout', function (_event) {
 })
 
 if (
-  sessionStorage.getItem("isNetworkOutdated")
-  && !sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
+  sessionStorage.getItem("isNetworkOutdated") === "true"
+  && (
+    sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed") === "false"
+    || sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed") === null
+  )
 ) {
   $(".outdated-network-modal-container").removeClass("d-none")
 }
