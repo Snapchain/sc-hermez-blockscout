@@ -244,7 +244,7 @@
               </p>
               <%= if outdated_network_url != "" do %>
                 <p>
-                  <a class="mx-auto d-block text-center mb-4 " href=<%= network_outdated_url %>><%= network_outdated_url %></a>
+                  <a class="mx-auto d-block text-center mb-4 " href=<%= outdated_network_url %>><%= outdated_network_url %></a>
                 </p>
               <% end %>
               <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn" onclick="closeOutdatedNetworkModal()">
