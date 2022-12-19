@@ -1,8 +1,4 @@
 version: '3.5'
-networks:
-  default:
-    external: true
-    name: zkevm
 services:
   blockscout-db:
     container_name: blockscout-db
@@ -40,5 +36,7 @@ services:
           - LOGO=/images/blockscout_logo.svg
           - LOGO_FOOTER=/images/blockscout_logo.svg
           - SUPPORTED_CHAINS=[]
-          - NETWORK_OUTDATED=false
+          - OUTDATED_NETWORK_TITLE=A new zkEVM Testnet is on its way!
+          - OUTDATED_NETWORK_MESSAGE=In the coming days, a new zkEVM Testnet (Pomegranate) will be released to the public, and this version (Litchi) will be outdated. We will update this message with the link to the newest version when it's deployed.
+          - OUTDATED_NETWORK_URL=
       command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]

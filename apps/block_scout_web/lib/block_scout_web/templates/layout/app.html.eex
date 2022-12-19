@@ -210,24 +210,50 @@
         <%= nil %>
     <% end %>
     <div class="layout-container">
-      <div class="outdated-network-modal-container d-none">
-        <div class="outdated-network-modal-bg"></div>
-        <div class="card outdated-network-modal">
-          <div class="card-body">
-            <h1 class="card-title w-100 text-center">
-              A new zkEVM Testnet is on its way!
-            </h1>
-            <p class="text-center">
-              In the coming days, a new zkEVM Testnet (Pomegranate) will be released to the public,
-              and this version (Litchi) will be outdated. We will update this message with the link
-              to the newest version when it&apos;s deployed.
-            </p>
-            <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn">
-              Confirm
-            </button>
+      <% outdated_network_title = Application.get_env(:block_scout_web, :outdated_network_title) %>
+      <% outdated_network_message = Application.get_env(:block_scout_web, :outdated_network_message) %>
+      <% outdated_network_url = Application.get_env(:block_scout_web, :outdated_network_url) %>
+      <%= if outdated_network_message != ""  do %>
+        <div class="outdated-network-modal-container d-none">
+          <script>
+            const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
+            if (hasOutdatedNetworkPopUpBeenClosed !== "true") {
+              const outdatedNetworkModalContainer = document.querySelector('.outdated-network-modal-container')
+              if (outdatedNetworkModalContainer) {
+                  outdatedNetworkModalContainer.classList.remove("d-none");
+              }
+            }
+            function closeOutdatedNetworkModal() {
+              const outdatedNetworkModalContainer = document.querySelector('.outdated-network-modal-container')
+              if (outdatedNetworkModalContainer) {
+                outdatedNetworkModalContainer.classList.add("d-none");
+                sessionStorage.setItem("hasOutdatedNetworkPopUpBeenClosed", "true")
+              }
+            }
+          </script>
+          <div class="outdated-network-modal-bg"></div>
+          <div class="card outdated-network-modal">
+            <div class="card-body">
+              <%= if outdated_network_title != ""  do %>
+                <h1 class="card-title w-100 text-center">
+                  <%= outdated_network_title %>
+                </h1>
+              <% end %>
+              <p class="text-center">
+                <%= outdated_network_message %>
+              </p>
+              <%= if outdated_network_url != "" do %>
+                <p>
+                  <a class="mx-auto d-block text-center mb-4 " href=<%= outdated_network_url %>><%= outdated_network_url %></a>
+                </p>
+              <% end %>
+              <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn" onclick="closeOutdatedNetworkModal()">
+                Confirm
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
       <%#= if not Explorer.Chain.finished_indexing?() do %>
         <!-- <div class="alert alert-warning text-center mb-0 p-3" data-selector="indexed-status">
           <%= render BlockScoutWeb.CommonComponentsView, "_loading_spinner.html" %>
@@ -313,8 +339,5 @@
     <%= if @view_module in [Elixir.BlockScoutWeb.AddressContractVerificationViaMultiPartFilesView, Elixir.BlockScoutWeb.AddressContractVerificationViaJsonView, Elixir.BlockScoutWeb.AddressContractVerificationViaStandardJsonInputView] do %>
       <script defer data-cfasync="false" src="<%= static_path(@conn, "/js/dropzone.js") %>"></script>
     <% end %>
-    <script>
-      sessionStorage.setItem("isNetworkOutdated", "<%= Application.get_env(:block_scout_web, :is_network_outdated) %>" === "true")
-    </script>
   </body>
 </html>
