@@ -210,10 +210,14 @@
         <%= nil %>
     <% end %>
     <div class="layout-container">
-      <% outdated_network_title = Application.get_env(:block_scout_web, :outdated_network_title) %>
-      <% outdated_network_message = Application.get_env(:block_scout_web, :outdated_network_message) %>
-      <% outdated_network_url = Application.get_env(:block_scout_web, :outdated_network_url) %>
-      <%= if outdated_network_message != ""  do %>
+      <% show_outdated_network_modal = Application.get_env(:block_scout_web, :show_outdated_network_modal) %>
+      <% outdated_network_modal_title = Application.get_env(:block_scout_web, :outdated_network_modal_title) %>
+      <% outdated_network_modal_message_1 = Application.get_env(:block_scout_web, :outdated_network_modal_message_1) %>
+      <% outdated_network_modal_url_1 = Application.get_env(:block_scout_web, :outdated_network_modal_url_1) %>
+      <% outdated_network_modal_message_2 = Application.get_env(:block_scout_web, :outdated_network_modal_message_2) %>
+      <% outdated_network_modal_url_2 = Application.get_env(:block_scout_web, :outdated_network_modal_url_2) %>
+      <%= if show_outdated_network_modal do %>
+        <p><%= outdated_network_modal_title %></p>
         <div class="outdated-network-modal-container d-none">
           <script>
             const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
@@ -234,17 +238,29 @@
           <div class="outdated-network-modal-bg"></div>
           <div class="card outdated-network-modal">
             <div class="card-body">
-              <%= if outdated_network_title != ""  do %>
+              <%= if outdated_network_modal_title != ""  do %>
                 <h1 class="card-title w-100 text-center">
-                  <%= outdated_network_title %>
+                  <%= outdated_network_modal_title %>
                 </h1>
               <% end %>
-              <p class="text-center">
-                <%= outdated_network_message %>
-              </p>
-              <%= if outdated_network_url != "" do %>
+              <%= if outdated_network_modal_message_1 != ""  do %>
+                <p class="text-center">
+                  <%= outdated_network_modal_message_1 %>
+                </p>
+              <% end %>
+              <%= if outdated_network_modal_url_1 != "" do %>
                 <p>
-                  <a class="mx-auto d-block text-center mb-4 " href=<%= outdated_network_url %>><%= outdated_network_url %></a>
+                  <a class="mx-auto d-block text-center mb-4 " href=<%= outdated_network_modal_url_1 %>><%= outdated_network_modal_url_1 %></a>
+                </p>
+              <% end %>
+              <%= if outdated_network_modal_message_2 != ""  do %>
+                <p class="text-center">
+                  <%= outdated_network_modal_message_2 %>
+                </p>
+              <% end %>
+              <%= if outdated_network_modal_url_2 != "" do %>
+                <p>
+                  <a class="mx-auto d-block text-center mb-4 " href=<%= outdated_network_modal_url_2 %>><%= outdated_network_modal_url_2 %></a>
                 </p>
               <% end %>
               <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn" onclick="closeOutdatedNetworkModal()">
