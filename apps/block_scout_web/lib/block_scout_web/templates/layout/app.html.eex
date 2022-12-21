@@ -217,7 +217,6 @@
       <% outdated_network_modal_message_2 = Application.get_env(:block_scout_web, :outdated_network_modal_message_2) %>
       <% outdated_network_modal_url_2 = Application.get_env(:block_scout_web, :outdated_network_modal_url_2) %>
       <%= if show_outdated_network_modal do %>
-        <p><%= outdated_network_modal_title %></p>
         <div class="outdated-network-modal-container d-none">
           <script>
             const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
