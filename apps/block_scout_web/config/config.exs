@@ -12,9 +12,12 @@ config :block_scout_web,
 
 config :block_scout_web,
   admin_panel_enabled: System.get_env("ADMIN_PANEL_ENABLED", "") == "true",
-  outdated_network_title: System.get_env("OUTDATED_NETWORK_TITLE", ""),
-  outdated_network_message: System.get_env("OUTDATED_NETWORK_MESSAGE", ""),
-  outdated_network_url: System.get_env("OUTDATED_NETWORK_URL", "")
+  show_outdated_network_modal: System.get_env("SHOW_OUTDATED_NETWORK_MODAL", "") == "true",
+  outdated_network_modal_title: System.get_env("OUTDATED_NETWORK_MODAL_TITLE", ""),
+  outdated_network_modal_message_1: System.get_env("OUTDATED_NETWORK_MODAL_MESSAGE_1", ""),
+  outdated_network_modal_url_1: System.get_env("OUTDATED_NETWORK_MODAL_URL_1", ""),
+  outdated_network_modal_message_2: System.get_env("OUTDATED_NETWORK_MODAL_MESSAGE_2", ""),
+  outdated_network_modal_url_2: System.get_env("OUTDATED_NETWORK_MODAL_URL_2", "")
 
 config :block_scout_web, BlockScoutWeb.Counters.BlocksIndexedCounter, enabled: true
 
