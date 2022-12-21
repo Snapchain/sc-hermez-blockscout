@@ -32,7 +32,7 @@ services:
           - ETHEREUM_JSONRPC_HTTP_URL=https://develop.zkevm-test.net:2083
           - DATABASE_URL=postgres://test_user:test_password@blockscout-db:5432/explorer
           - ECTO_USE_SSL=false
-          - MIX_ENV=dev
+          - MIX_ENV=prod
           - LOGO=/images/blockscout_logo.svg
           - LOGO_FOOTER=/images/blockscout_logo.svg
           - SUPPORTED_CHAINS=[]
