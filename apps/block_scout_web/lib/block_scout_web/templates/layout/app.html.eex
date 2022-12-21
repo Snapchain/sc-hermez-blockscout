@@ -210,10 +210,48 @@
         <%= nil %>
     <% end %>
     <div class="layout-container">
-      <% show_maintenance_alert = Application.get_env(:block_scout_web, BlockScoutWeb.Chain)[:show_maintenance_alert] %>
-      <%= if show_maintenance_alert do %>
-        <div class="alert alert-warning text-center mb-0 p-3" data-selector="indexed-status">
-          <%= raw(System.get_env("MAINTENANCE_ALERT_MESSAGE")) %>
+      <% outdated_network_title = Application.get_env(:block_scout_web, :outdated_network_title) %>
+      <% outdated_network_message = Application.get_env(:block_scout_web, :outdated_network_message) %>
+      <% outdated_network_url = Application.get_env(:block_scout_web, :outdated_network_url) %>
+      <%= if outdated_network_message != ""  do %>
+        <div class="outdated-network-modal-container d-none">
+          <script>
+            const hasOutdatedNetworkPopUpBeenClosed = sessionStorage.getItem("hasOutdatedNetworkPopUpBeenClosed")
+            if (hasOutdatedNetworkPopUpBeenClosed !== "true") {
+              const outdatedNetworkModalContainer = document.querySelector('.outdated-network-modal-container')
+              if (outdatedNetworkModalContainer) {
+                  outdatedNetworkModalContainer.classList.remove("d-none");
+              }
+            }
+            function closeOutdatedNetworkModal() {
+              const outdatedNetworkModalContainer = document.querySelector('.outdated-network-modal-container')
+              if (outdatedNetworkModalContainer) {
+                outdatedNetworkModalContainer.classList.add("d-none");
+                sessionStorage.setItem("hasOutdatedNetworkPopUpBeenClosed", "true")
+              }
+            }
+          </script>
+          <div class="outdated-network-modal-bg"></div>
+          <div class="card outdated-network-modal">
+            <div class="card-body">
+              <%= if outdated_network_title != ""  do %>
+                <h1 class="card-title w-100 text-center">
+                  <%= outdated_network_title %>
+                </h1>
+              <% end %>
+              <p class="text-center">
+                <%= outdated_network_message %>
+              </p>
+              <%= if outdated_network_url != "" do %>
+                <p>
+                  <a class="mx-auto d-block text-center mb-4 " href=<%= outdated_network_url %>><%= outdated_network_url %></a>
+                </p>
+              <% end %>
+              <button class="btn-line mx-auto" type="button" id="outdated-network-modal-btn" onclick="closeOutdatedNetworkModal()">
+                Confirm
+              </button>
+            </div>
+          </div>
         </div>
       <% end %>
       <%#= if not Explorer.Chain.finished_indexing?() do %>
@@ -232,6 +270,12 @@
       </main>
       <%= render BlockScoutWeb.LayoutView, "_footer.html", assigns %>
     </div>
+    <% show_maintenance_alert = Application.get_env(:block_scout_web, BlockScoutWeb.Chain)[:show_maintenance_alert] %>
+      <%= if show_maintenance_alert do %>
+        <div class="alert alert-warning text-center mb-0 p-3" data-selector="indexed-status">
+          <%= raw(System.get_env("MAINTENANCE_ALERT_MESSAGE")) %>
+        </div>
+      <% end %>
     <%= if (
       @view_module != Elixir.BlockScoutWeb.ChainView &&
       @view_module != Elixir.BlockScoutWeb.BlockView &&

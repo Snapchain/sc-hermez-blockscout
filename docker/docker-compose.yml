@@ -1,29 +1,42 @@
 version: '3.5'
-networks:
-  default:
-    external: true
-    name: zkevm
 services:
-    blockscout:
-        container_name: blockscout
-        image: hermeznetwork/zkevm-explorer:latest
-        ports:
-            - 4010:4010
-        volumes:
-            - ../apps/block_scout_web/assets:/app/apps/block_scout_web/assets
-            - ../apps/block_scout_web/lib:/app/apps/block_scout_web/lib
-            - /app/apps/block_scout_web/assets/node_modules
-        environment:
-            - PORT=4010
-            - NETWORK=POE
-            - SUBNETWORK=Polygon zkEVM
-            - COIN=ETH
-            - ETHEREUM_JSONRPC_VARIANT=geth
-            - ETHEREUM_JSONRPC_HTTP_URL=http://zkevm-node:8123
-            - DATABASE_URL=postgres://test_user:test_password@zkevm-bridge-db:5432/explorer
-            - ECTO_USE_SSL=false
-            - MIX_ENV=prod
-            - LOGO=/images/blockscout_logo.svg
-            - LOGO_FOOTER=/images/blockscout_logo.svg
-            - SUPPORTED_CHAINS=[]
-        command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]
+  blockscout-db:
+    container_name: blockscout-db
+    image: postgres
+    expose:
+      - 5435
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+      - POSTGRES_DB=test_db
+    command: ["postgres", "-N", "500"]
+
+  blockscout:
+      container_name: blockscout
+      image: hermeznetwork/zkevm-explorer:latest
+      ports:
+          - 4010:4010
+      volumes:
+          - ../apps/block_scout_web/assets:/app/apps/block_scout_web/assets
+          - ../apps/block_scout_web/lib:/app/apps/block_scout_web/lib
+          - /app/apps/block_scout_web/assets/node_modules
+      environment:
+          - PORT=4010
+          - NETWORK=POE
+          - SUBNETWORK=Polygon zkEVM
+          - CHAIN_ID=1401
+          - COIN=ETH
+          - ETHEREUM_JSONRPC_VARIANT=geth
+          - ETHEREUM_JSONRPC_HTTP_URL=https://develop.zkevm-test.net:2083
+          - DATABASE_URL=postgres://test_user:test_password@blockscout-db:5432/explorer
+          - ECTO_USE_SSL=false
+          - MIX_ENV=prod
+          - LOGO=/images/blockscout_logo.svg
+          - LOGO_FOOTER=/images/blockscout_logo.svg
+          - SUPPORTED_CHAINS=[]
+          - OUTDATED_NETWORK_TITLE=A new zkEVM Testnet is on its way!
+          - OUTDATED_NETWORK_MESSAGE=In the coming days, a new zkEVM Testnet (Pomegranate) will be released to the public, and this version (Litchi) will be outdated. We will update this message with the link to the newest version when it's deployed.
+          - OUTDATED_NETWORK_URL=
+      command: ["/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server"]

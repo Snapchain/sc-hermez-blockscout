@@ -11,7 +11,10 @@ config :block_scout_web,
   ecto_repos: [Explorer.Repo]
 
 config :block_scout_web,
-  admin_panel_enabled: System.get_env("ADMIN_PANEL_ENABLED", "") == "true"
+  admin_panel_enabled: System.get_env("ADMIN_PANEL_ENABLED", "") == "true",
+  outdated_network_title: System.get_env("OUTDATED_NETWORK_TITLE", ""),
+  outdated_network_message: System.get_env("OUTDATED_NETWORK_MESSAGE", ""),
+  outdated_network_url: System.get_env("OUTDATED_NETWORK_URL", "")
 
 config :block_scout_web, BlockScoutWeb.Counters.BlocksIndexedCounter, enabled: true
 
