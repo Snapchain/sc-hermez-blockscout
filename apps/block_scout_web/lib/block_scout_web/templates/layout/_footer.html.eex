@@ -24,7 +24,7 @@
           <a href="https://github.com/0xPolygonHermez" rel="noreferrer" target="_blank" class="footer-social-icon" title='<%= gettext("Github") %>'>
             <div class="footer-social-icon-container fontawesome-icon github"></div>
           </a>
-          <a href="https://twitter.com/0xPolygonHermez" rel="noreferrer" target="_blank" class="footer-social-icon" title='<%= gettext("Twitter") %>'>
+          <a href="https://twitter.com/0xPolygonZK" rel="noreferrer" target="_blank" class="footer-social-icon" title='<%= gettext("Twitter") %>'>
             <div class="footer-social-icon-container fontawesome-icon twitter"></div>
           </a>
           <a href="https://t.me/polygonhermezchat" rel="noreferrer" target="_blank" class="footer-social-icon" title='<%= gettext("Telegram") %>'>
