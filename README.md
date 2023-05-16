@@ -20,7 +20,29 @@ For questions, comments and feature requests see the [discussions section](https
 
 BlockScout is an Elixir application that allows users to search transactions, view accounts and balances, and verify smart contracts on the Ethereum network including all forks and sidechains.
 
-Currently available full-featured block explorers (Etherscan, Etherchain, Blockchair) are closed systems which are not independently verifiable.  As Ethereum sidechains continue to proliferate in both private and public settings, transparent, open-source tools are needed to analyze and validate transactions.
+Currently available full-featured block explorers (Etherscan, Etherchain, Blockchair) are closed systems which are not independently verifiable. As Ethereum sidechains continue to proliferate in both private and public settings, transparent, open-source tools are needed to analyze and validate transactions.
+
+## Building and pushing image locally
+
+- Enable docker experimental features
+
+```bash
+export DOCKER_CLI_EXPERIMENTAL=enabled
+```
+
+- Create a new builder instance
+
+```bash
+docker buildx create --use
+```
+
+- Build and push with Ubuntu LTS target architecture
+
+```bash
+cd docker
+
+docker buildx build --no-cache --platform linux/amd64 -t scmorgan/sc-hermez-zkevm-explorer:latest -f Dockerfile ../ --push
+```
 
 ## Supported Projects
 
