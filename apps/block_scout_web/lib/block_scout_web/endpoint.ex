@@ -71,7 +71,14 @@ defmodule BlockScoutWeb.Endpoint do
   plug(BlockScoutWeb.Prometheus.Exporter)
 
   # 'x-apollo-tracing' header for https://www.graphqlbin.com to work with our GraphQL endpoint
-  plug(CORSPlug, headers: ["x-apollo-tracing" | CORSPlug.defaults()[:headers]])
+  # TODO(mhowell): Use CURRENT_ENV to conditionally add localhost:3000 to CORS policy, just testing now
+  plug(CORSPlug, 
+      headers: ~w(content-type authorization x-requested-with accept origin x-apollo-tracing),
+      origins: ["http://localhost:3000", "https://app.snapchain.dev", "https://sc-webapp-snapchain.vercel.app", "https://sc-webapp-bap2pecs-snapchain.vercel.app"],
+      methods: [:get, :post, :put, :patch, :delete, :options],
+      max_age: 86400,
+      vary: ~w(origin)
+  )
 
   plug(BlockScoutWeb.Router)
 
