@@ -1,7 +1,7 @@
 SYSTEM := $(shell uname -s)
 HOST := host.docker.internal
-DOCKER_REPO := sc-hermez-zkevm-explorer
-APP_NAME := zkevm-explorer
+DOCKER_REPO := scmorgan
+APP_NAME := sc-hermez-zkevm-explorer
 BS_CONTAINER_IMAGE := $(DOCKER_REPO)/$(APP_NAME)
 BS_CONTAINER_NAME := blockscout
 PG_CONTAINER_IMAGE := postgres:14
